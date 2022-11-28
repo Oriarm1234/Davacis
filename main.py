@@ -109,19 +109,22 @@ def mainMenu():
                             else:
                                 mainMenu()
                         logging.warning("Slot name taken.")
-                        override = str(input("Would you like to override the slot? (y/n)")).lower()
+                        override = str(input("Would you like to override the slot? (y/n)\n>")).lower()
                         if override == "y":
-                            os.rmdir(f"{savesPath}\\{saveSlot}")
-                            os.mkdir(f"{savesPath}\\{saveSlot}")
+                            with open(f"{savesPath}\\{saveSlot}\\player.txt","w"):pass
+                            slotMade = 1
                         else:
                             print("Returning to main menu")
                         dClear()    
-                try:
-                    player = raceSelect(races,davacis)
-                except(TypeError):
-                    player = raceSelect(races,davacis)
-                    logging.error
-                    return
+                playerMade = False # unfinished
+                while not playerMade:
+                    try:
+                        player = raceSelect(races,davacis)
+                        logging.debug("Player creation success")
+                    except(TypeError):
+                        player = raceSelect(races,davacis)
+                        logging.error("Player creation failed")
+                        return
                 player.sparePoints = 20
                 iClear()
                 player.statAssign()
