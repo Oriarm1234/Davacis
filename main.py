@@ -7,7 +7,6 @@ import logging
 from logging.config import fileConfig
 from definitions import iClear, dClear
 from definitions import races, davacis
-from raceSelection import raceSelect
 import os
 import sys
 import time
@@ -30,19 +29,6 @@ if os.path.exists(savesPath) == False:
     input("Enter any key to acknowledge >")
 ################################################################################
 # Savings
-def saveGame(saveSlot,player,savesPath):
-    slotContent = os.listdir(f"{savesPath}/{saveSlot}")
-    slotPath = f"{savesPath}/{saveSlot}"
-    if "player.txt" in slotContent:
-        print("Saving...")
-        for attribute, value in player.__dict__.items():    
-            with open(f"{slotPath}/player.txt","a") as f:
-                f.write(f"{attribute}={value}\n")
-    else:
-        f = open(f"{slotPath}/player.txt","x")
-        f.close()
-        saveGame(saveSlot,player,savesPath)
-    dClear()    
 ################################################################################
 # Logging
 logPath = f"{filePath}/logs"
@@ -84,48 +70,16 @@ def mainMenu():
     while correct != 1:
         match navigate:
             case "1":
-                slotMade = 0
-                while slotMade != 1:
-                    validName = False
-                    while not validName:
-                        saveSlot = str(input("What would you like to name the save slot? >")).strip().replace(' ', '_')
-                        if "\\" in saveSlot or "/" in saveSlot:
-                            print("Save slot cannot contain slashes")
-                        else:
-                            validName = True    
-                    if saveSlot == "":
-                        print("Slot name cannot be empty")
-                        dClear()
+             #
+                playerSuccess = False
+                player = raceSelect(races,davacis)
+                while not playerSuccess:
                     try:
-                        os.mkdir(f"{savesPath}\\{saveSlot}")
-                        slotMade = 1
-                    except(FileExistsError):
-                        if len(os.listdir(f"{savesPath}\\{saveSlot}")) == 0:
-                            logging.warning("Slot creation failed due to empty slot taking name.")
-                            navigate = str(input("Slot name is taken by an empty slot. Override? (y/n)\n>")).lower()
-                            if navigate == "y":
-                                os.rmdir(saveSlot)
-                                mainMenu()
-                            else:
-                                mainMenu()
-                        logging.warning("Slot name taken.")
-                        override = str(input("Would you like to override the slot? (y/n)\n>")).lower()
-                        if override == "y":
-                            with open(f"{savesPath}\\{saveSlot}\\player.txt","w"):pass
-                            slotMade = 1
-                        else:
-                            print("Returning to main menu")
-                        dClear()    
-                playerMade = False # unfinished
-                while not playerMade:
-                    try:
+                        player.sparePoints = True
+                        playerSuccess = True
+                    except(AttributeError) as exception:
+                        logging.error(f"Failed to fetch player data, restarting raceSelection. {exception}")
                         player = raceSelect(races,davacis)
-                        logging.debug("Player creation success")
-                    except(TypeError):
-                        player = raceSelect(races,davacis)
-                        logging.error("Player creation failed")
-                        return
-                player.sparePoints = 20
                 iClear()
                 player.statAssign()
                 saveGame(saveSlot,player,savesPath)
@@ -160,7 +114,7 @@ def mainMenu():
                                 content = lines[lineNum].split("=")
                                 key = content[0];value = content[1]
                                 playerLoading[key] = value
-                            from stats import PlayerClass
+                            from player import PlayerClass
                             player = PlayerClass()
                             player.loadFromDict(playerLoading)
                             player.race = dict(eval(player.race))
@@ -227,12 +181,3 @@ def mainMenu():
                 mainMenu()
         correct = 1
 mainMenu()
-################################################################################
-# juandeez nuts in your mouth
-def game():
-    def test():
-        prompt = str(input("""
-        Test:
-        1. Cont
-        2. Die
-        3. Fight"""))
