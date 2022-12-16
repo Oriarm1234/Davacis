@@ -1,3 +1,6 @@
 /logs
 /saves
 /__pycache__
+/.vscode
+/saveslocation.txt
+/.git

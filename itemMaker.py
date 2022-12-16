@@ -1,18 +1,19 @@
 import os
-import logging
-from definitions import dClear
+from definitions import clear
 from definitions import davacis 
+from definitions import filePath
+from loggingConfig import initLogger
+initLogger(filePath)
 def openItemDesigner(filePath):
-    Valid = False
     weapon = {}
     itemPath = f"{filePath}/items"
     itemName = str(input("What do you want to call the item?\n>"))
-    weapon.update("damage",chooseWeaponDamage(chooseItemType()))
-    weapon.update("rarity",chooseItemRarity())
-    weapon.update("statReqs",chooseStatReqs(davacis))
-    weapon.update("value",chooseWeaponValue())
-    weapon.update("allowTraits",chooseTraitAllow())    
-    weapon.update("isUnique",chooseWeaponUnique())
+    weapon.update(damage = chooseWeaponDamage(chooseItemType()))
+    weapon.update(rarity = chooseItemRarity())
+    weapon.update(statReqs = chooseStatReqs(davacis))
+    weapon.update(value = chooseWeaponValue())
+    weapon.update(allowTraits = chooseTraitAllow())    
+    weapon.update(isUnique = chooseWeaponUnique())
     print(weapon)
 def chooseItemType():
     types = ["weapons","armour","misc"]
@@ -23,12 +24,12 @@ def chooseItemType():
             2. Armour
             3. Misc\n>""")) - 1]
     except(TypeError,IndexError):
-        invalidInput()
+        print("Invalid Input")
+        clear("d")
         chooseItemType()
         return
     return type
 def chooseWeaponTypes():
-    types = ["crush","slash","pierce","magic","projectile","etherial"]
     Finished = False
     while not Finished:
         try:
@@ -46,8 +47,8 @@ def chooseWeaponTypes():
                 raise IndexError
         except(TypeError,IndexError):
             print("Invalid Input")
-            dClear()
-            chooseItemType()
+            clear("d")
+            chooseWeaponTypes()
             return
         if weaponType == "7":
             Finished = True
@@ -59,20 +60,20 @@ def chooseWeaponTypes():
         else:
             pass
 def chooseWeaponDamage(weaponType):
+    types = ["crush","slash","pierce","magic","projectile","etherial"]
     Valid = False
     while not Valid:
         try:
-            weaponDamageVal1 = int(input(f"What is the least {weaponType.capitalize()} damage should the weapon do?\n>"))
-            weaponDamageVal2 = int(input(f"What is the most {weaponType.capitalize()} damage should the weapon do?\n>"))
-            weaponDamageVals = [weaponDamageVal1,weaponDamageVal2]
+            weaponDamageVals = [int(input(f"What is the least {types[weaponType].capitalize()} damage should the weapon do?\n>")), int(input(f"What is the most {types[weaponType].capitalize()} damage should the weapon do?\n>"))]
             Valid = True
         except(TypeError):
-            invalidInput()
-            chooseItemType()
+            print("Invalid Input")
+            clear("d")
+            chooseWeaponDamage(weaponType)
             return
         weaponDamageDict = {}   
-        for i in len(weaponType):
-            weaponDamageDict.update(weaponType[i],weaponDamageVals)
+        for i in range(len(weaponType)):
+            weaponDamageDict[types[weaponType]] = weaponDamageVals
         return weaponDamageDict
 def chooseItemRarity():
     raritys = ["common","uncommon","rare","epic","legendary","mythical","unobtainable"]
@@ -86,33 +87,38 @@ def chooseItemRarity():
         6. Mythical
         7. Unobtainable
         >""")) - 1]
+        return itemRarity    
     except(TypeError,IndexError):
-        invalidInput()
-    return itemRarity    
+        print("Invalid Input")
+        clear("d")
+        chooseItemRarity()
 
 def chooseStatReqs(davacis):
-    statCat = [];statCatDict = {}
-    statsReq = str(input("""
-    What stat categories are needed? (input multiple numbers if needed)?
-    1. Dexterity
-    2. Agility
-    3. Vitality
-    4. Awareness
-    5. Charisma
-    6. Intellgience
-    7. Strength"""))
-    statsReq = statsReq.split
-    for i in len(statsReq):
-        try:
-            statCat.append(davacis[statsReq[i]])
-        except(IndexError,KeyError):
-            print("Input values between 1 and 7")
-    for i in len(statCat):
+    statCat = [];statCatDict = {};statsReq = set()
+    try:
+        statsReq.add(int(input("""
+        What stat categories are needed? (input multiple numbers if needed)?
+        1. Dexterity
+        2. Agility
+        3. Vitality
+        4. Awareness
+        5. Charisma
+        6. Intelligence
+        7. Strength""")))
+        for i in range(len(statsReq)):statCat.append(davacis[statsReq])
+    except(TypeError,IndexError):
+        print("Invalid Input")
+        clear("d")
+        chooseStatReqs(davacis)
+        return
+    for i in range(len(statCat)):
         try:
             statCatNum = int(input(f"How high should the player's {statCat[i]} be?"))  
-            statCatDict.update(statCat[i],statCatNum)
+            statCatDict[statCat[i]] = statCatNum
+
         except(TypeError):
-            invalidInput()
+            print("Invalid Input")
+            clear("d")
             chooseStatReqs(davacis)
             return
     return statCatDict
@@ -120,7 +126,8 @@ def chooseWeaponValue():
     try:
         weaponValue = int(input("What should the item be worth?\n>"))
     except(TypeError):
-        invalidInput()
+        print("Invalid Input")
+        clear("d")
         chooseWeaponValue()
         return
     return weaponValue
@@ -129,19 +136,17 @@ def chooseTraitAllow():
         allowTraits = int(input("Should the weapon be allowed to have traits?\n1. Yes\n2. No"))
         allowTraits = bool(allowTraits)
     except(TypeError):
-        invalidInput()
+        print("Invalid Input")
+        clear("d")
         chooseTraitAllow()
         return
     return allowTraits
-def invalidInput():
-    print("Invalid Input")
-    logging.warning("User entered invalid value in editor.")
-    dClear()
 def chooseWeaponUnique():
     try:
         isUnique = int(input("Is the weapon unique (excluded from standardloot)?\n1. Yes\n2. No"))
         isUnique = bool(isUnique)
     except(TypeError):
-        invalidInput()
+        print("Invalid Input")
+        clear("d")
         chooseWeaponUnique()
         return
