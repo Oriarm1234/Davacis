@@ -28,13 +28,8 @@ def mainMenu(PlayerClass):
     while correct != 1:
         match navigate:
             case "1":
-                clear("i")
                 player = PlayerClass()
-                player.nameSelf()
-                player.assignRace(davacis,racesDict)
-                player.statAssign()
-                slotPath = player.makeSaveSlot(savePath)
-                player.saveGame(slotPath)
+                player.newGame(savePath)
             case "2":
                 player = PlayerClass()
                 player.loadGame(savePath)
