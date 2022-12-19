@@ -2,11 +2,11 @@ from definitions import *
 import os
 import logging
 from loggingConfig import initLogger
+from ast import literal_eval
 initLogger(filePath)
 class PlayerClass: # has all of the stats for the player
     def __init__(self):
         self.name = ""
-        self.slotName = ""
         self.race = {}
         self.health = 20
         self.level = 0
@@ -28,7 +28,7 @@ class PlayerClass: # has all of the stats for the player
         return f"""
         Name: {self.name}
         Health: {self.health}
-        Race: {eval("self.race['name']")}
+        Race: {self.race['name'].capitalize()}
         Level: {self.level}
         XP: {self.xp}
         Gold: {self.gold}
@@ -220,6 +220,13 @@ Blunt""")
                 return
             clear("d")    
         return slotPath
+    def newGame(self,savePath):
+        clear("i")
+        self.nameSelf()
+        self.assignRace(davacis,racesDict)
+        self.statAssign()
+        slotPath = self.makeSaveSlot(savePath)
+        self.saveGame(slotPath)
     def saveGame(self,slotPath):
         slotContent = os.listdir(f"{slotPath}")
         if "player.txt" in slotContent:
@@ -265,7 +272,7 @@ Blunt""")
                     playerLoading[key] = value
                 for key in playerLoading:
                     setattr(self, key, playerLoading[key])
-                self.race = dict(eval(self.race)) # type: ignore
+                self.race = dict(literal_eval(f"{self.race}")) # type: ignore
                 print(self.race)
                 while True:
                     print(self)
@@ -276,7 +283,6 @@ Blunt""")
                         self.loadGame(savePath)
                         return
                     elif navigate == "y":
-                        logging.debug(f"Loaded file {self.slotName} correctly")
                         return
                     else:
                         print("Invalid input, input either 'Y' or 'N'")

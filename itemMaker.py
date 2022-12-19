@@ -1,4 +1,3 @@
-import os
 from definitions import clear
 from definitions import davacis 
 from definitions import filePath
@@ -6,7 +5,7 @@ from loggingConfig import initLogger
 initLogger(filePath)
 def openItemDesigner(filePath):
     weapon = {}
-    itemPath = f"{filePath}/items"
+    itemPath = f"{filePath}\\entities\\items"
     itemName = str(input("What do you want to call the item?\n>"))
     weapon.update(damage = chooseWeaponDamage(chooseItemType()))
     weapon.update(rarity = chooseItemRarity())
