@@ -272,8 +272,7 @@ Blunt""")
                     playerLoading[key] = value
                 for key in playerLoading:
                     setattr(self, key, playerLoading[key])
-                self.race = dict(literal_eval(f"{self.race}")) # type: ignore
-                print(self.race)
+                self.race = dict(literal_eval(f"{self.race}"))
                 while True:
                     print(self)
                     navigate = str(input(f"{self}\nIs this the correct file?(y/n)\n>")).lower()

@@ -1,12 +1,11 @@
 import os
-# map(str([list]))
-import time
+from time import sleep
 from loggingConfig import initLogger
 filePath = os.path.dirname(os.path.realpath(__file__))
 logging = initLogger(filePath)
 def clear(mode):
     if mode == "d":
-        time.sleep(1.25)
+        sleep(1.25)
     os.system('cls')
 racesDict = {
     "human":{

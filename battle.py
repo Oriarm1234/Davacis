@@ -1,6 +1,7 @@
 from random import randint
 from random import choice
 from os import listdir
+import json
 class enemyClass:
     def __init__(self):
         self.name = ""
@@ -13,12 +14,12 @@ class enemyClass:
         self.vitality = 1
         self.awareness = 1
         self.charisma = 1
-        self.intelligence = 1
+        self.intelligence = 1   
         self.strength = 1
         self.traits = [""]
         self.profs = [""]
         self.drops = [""]
-    def chooseSelf(self,spawnList,filePath,secCond = False,diffScale = False):
+    def chooseSelf(self,spawnList,filePath,secretCond = False,diffScale = False):
         self.rarity = randint(1,101)
         if diffScale != False:
          self.rarity = self.rarity * diffScale
@@ -32,11 +33,11 @@ class enemyClass:
             self.rarity = "legendary"
         elif self.rarity < 100: # 2%
             self.rarity = "mythical"
-        if secCond != False:
-            if self.rarity == 101 and secCond == True: # 1% and a condition must be true
+        if secretCond != False:
+            if self.rarity == 101 and secretCond == True: # 1% and a condition must be true
                 self.rarity = "secret"
-        enemyPath = f"{filePath}\\entities\\enemies\\{self.rarity}\\{choice(listdir('enemyPath'))}"
-    def loadSelf(self):
-        pass
-        
+        with open(f"{filePath}\\entities\\enemies\\{self.rarity}\\{choice(listdir(''))}") as f: # choice needs finishing
+            entityLoading = json.loads(f.read())
+            for key in entityLoading:
+                setattr(self, key, entityLoading[key])
     
