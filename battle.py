@@ -19,6 +19,18 @@ class enemyClass:
         self.traits = [""]
         self.profs = [""]
         self.drops = [""]
+    def __str__(self):
+        return f"""
+        Name: {self.name}
+        Health: {self.health}
+        Level: {self.level}
+        Dexterity: {self.dexterity}
+        Agility: {self.agility}
+        Vitality: {self.vitality}
+        Awareness: {self.awareness}
+        Charisma: {self.charisma}
+        Intelligence: {self.intelligence}
+        Strength: {self.strength}"""
     def chooseSelf(self,spawnList,filePath,secretCond = False,diffScale = False):
         self.rarity = randint(1,101)
         if diffScale != False:
@@ -40,4 +52,6 @@ class enemyClass:
             entityLoading = json.loads(f.read())
             for key in entityLoading:
                 setattr(self, key, entityLoading[key])
+enemy = enemyClass()
+print(enemy)
     
