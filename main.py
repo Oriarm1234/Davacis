@@ -37,12 +37,12 @@ def mainMenu(PlayerClass):
                 print("To Be Added")
                 mainMenu(PlayerClass)
             case "4":
-                navigate = str(input("""
+                navigate = input("""
                 ---------Settings---------
                 1. Wipe Saves Folder
                 2. Open Item Designer
                 3. Exit
-                >"""))          
+                >""")          
                 if navigate == "1":
                     confirm = str(input("Confirm you want ALL saves deleted. (y/n) \n>"))
                     if confirm == 1:
