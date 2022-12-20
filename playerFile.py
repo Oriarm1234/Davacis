@@ -212,10 +212,10 @@ class PlayerClass: # has all of the stats for the player
         clear("d")    
     def loadGame(self,savePath):
             slots = os.listdir(savePath)
-            message = "What slot would you like to load?\n"
+            message = "\t\tWhat slot would you like to load?\n"
             for i in range(len(slots)):
-                message+=f"{i + 1}.{slots[i]}\n"
-            message+=f"{len(slots) + 1}.Exit\n> "
+                message+=f"\t\t{i + 1}.{slots[i]}\n"
+            message+=f"\t\t{len(slots) + 1}.Exit\n> "
             choice = sanInput(message, int, 1, len(slots) + 1, Clear=True)
             if choice == len(slots) + 1:
                 return "CONTINUE"
@@ -223,8 +223,8 @@ class PlayerClass: # has all of the stats for the player
             saveSlot = slots[choice-1]
             slotPath = f"{savePath}/{saveSlot}"
             if len(os.listdir(f"{slotPath}")) == 0:
-                logging.warning(f"{saveSlot} appears empty, this indicates a broken save.")
-                delete = sanInput("Would you like to delete the file? (y/n)\n> ", str, values=["y", "n"],Clear=True)
+                logging.warning(f"\t\t{saveSlot} appears empty, this indicates a broken save.")
+                delete = sanInput("\t\tWould you like to delete the file? (y/n)\n> ", str, values=["y", "n"],Clear=True)
                 if delete == "y":
                     os.rmdir(slotPath)
                     logging.debug(f"{saveSlot} deleted")

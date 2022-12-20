@@ -65,5 +65,5 @@ def mainMenu():
             if confirm == "y":
                 raise SystemExit
             elif confirm == "n":
-                print("Returning to main menu...")
+                print("\t\tReturning to main menu...")
 mainMenu()
