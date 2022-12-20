@@ -17,14 +17,14 @@ clear("i")
 def mainMenu(PlayerClass):
     clear("d")
     correct = 0
-    navigate = str(input(f"""
+    navigate = input(f"""
 -------Main Menu-------
       1.New Game
       2.Load Game
       3.Help
       4.Settings
       5.Quit
-    >"""))
+    >""")
     while correct != 1:
         match navigate:
             case "1":
@@ -44,7 +44,7 @@ def mainMenu(PlayerClass):
                 3. Exit
                 >""")          
                 if navigate == "1":
-                    confirm = str(input("Confirm you want ALL saves deleted. (y/n) \n>"))
+                    confirm = ("Confirm you want ALL saves deleted. (y/n) \n>")
                     if confirm == 1:
                         folders = os.listdir(f"{filePath}/saves")
                         for folder in folders:
@@ -58,7 +58,7 @@ def mainMenu(PlayerClass):
                     mainMenu(PlayerClass)
                     return
             case "5":
-                confirm = str(input("Are you sure you want to exit? (y/n)")).lower()
+                confirm = input("Are you sure you want to exit? (y/n)").lower()
                 if confirm == "y":
                     raise SystemExit
                 elif confirm == "n":

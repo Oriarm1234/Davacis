@@ -275,7 +275,7 @@ Blunt""")
                 self.race = dict(literal_eval(f"{self.race}"))
                 while True:
                     print(self)
-                    navigate = str(input(f"{self}\nIs this the correct file?(y/n)\n>")).lower()
+                    navigate = input(f"{self}\nIs this the correct file?(y/n)\n>").lower()
                     if navigate == "n":
                         print("Returning to slot selection...")
                         clear("d")
@@ -286,4 +286,4 @@ Blunt""")
                     else:
                         print("Invalid input, input either 'Y' or 'N'")
     def nameSelf(self):
-        self.name = str(input("What is your name?\n>"))
+        self.name = input("What is your name?\n>")
