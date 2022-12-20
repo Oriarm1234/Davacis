@@ -61,7 +61,7 @@ def mainMenu():
             else:
                 return mainMenu()
         case 5:
-            confirm = sanInput("\t\tAre you sure you want to exit? (y/n)\n> ", str, values=["y", "n"], Clear=True)
+            confirm = sanInput("\t\tAre you sure you want to exit? (y/n)\n\t\t> ", str, values=["y", "n"], Clear=True)
             if confirm == "y":
                 raise SystemExit
             elif confirm == "n":
