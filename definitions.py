@@ -3,7 +3,7 @@ from time import sleep
 from loggingConfig import initLogger
 filePath = os.path.dirname(os.path.realpath(__file__))
 logging = initLogger(filePath)
-def clear(mode):
+def clear(mode="i"):
     if mode == "d":
         sleep(1.25)
     os.system('cls')
@@ -48,8 +48,9 @@ def defineSavePath(filePath):
         os.mkdir(savePath)    
         input("Enter any key to acknowledge >")
     return savePath
-def sanInput(message,desiredType=None,valMin=None,valMax=None):
+def sanInput(message,desiredType=None,valMin=None,valMax=None,values=[],Clear=False):
     while True:
+        if Clear:clear("d")
         userInput = input(message)
         if desiredType != None:
                 try:
@@ -65,25 +66,29 @@ def sanInput(message,desiredType=None,valMin=None,valMax=None):
                         case "bool":
                             hrData = "'1' or '0'"
                         case other:
-                            raise SyntaxError(f"{desiredType} is not a handled type")
-                    print(f"Invalid data, please enter {hrData}.")
+                            raise SyntaxError(f"\t\t{desiredType} is not a handled type")
+                    print(f"\t\tInvalid data, please enter {hrData}.")
                     continue
         if valMin != None:
             if isinstance(userInput,int) or isinstance(userInput,float):
                 if valMin > userInput: 
-                    print(f"Please enter a value greater than {valMin}.")
+                    print(f"\t\tPlease enter a value greater than {valMin-1}.")
                     continue
             elif isinstance(userInput,str):
                 if valMin > len(userInput):
-                    print(f"Please enter a value longer than {valMin} characters.")
+                    print(f"\t\tPlease enter a value longer than {valMin-1 if valMin > 0 else 0} characters.")
                     continue
         if valMax != None:
             if isinstance(userInput,int) or isinstance(userInput,float):
                 if valMax < userInput: 
-                    print(f"Please enter a value less than {valMax}.")
+                    print(f"\t\tPlease enter a value less than {valMax+1}.")
                     continue
             elif isinstance(userInput,str):
                 if valMax < len(userInput):
-                    print(f"Please enter a value shorter than {valMax} characters.")
+                    print(f"\t\tPlease enter a value shorter than {valMax+1} characters.")
                     continue
+        if values != []:
+            if userInput not in values:
+                print(f"\t\tPlease enter one of the following values ({','.join(map(str, values))})")
+                continue
         return userInput

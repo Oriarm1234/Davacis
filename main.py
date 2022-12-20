@@ -14,60 +14,56 @@ from itemMaker import openItemDesigner
 ################################################################################
 # Main Menu
 clear("i")
-def mainMenu(PlayerClass):
+def mainMenu():
     clear("d")
     correct = 0
-    navigate = str(input(f"""
+    navigate = sanInput(f"""
 -------Main Menu-------
       1.New Game
       2.Load Game
       3.Help
       4.Settings
       5.Quit
-    >"""))
-    while correct != 1:
-        match navigate:
-            case "1":
-                player = PlayerClass()
-                player.newGame(savePath)
-            case "2":
-                player = PlayerClass()
-                player.loadGame(savePath)
-            case "3":
-                print("To Be Added")
-                mainMenu(PlayerClass)
-            case "4":
-                navigate = input("""
-                ---------Settings---------
-                1. Wipe Saves Folder
-                2. Open Item Designer
-                3. Exit
-                >""")          
-                if navigate == "1":
-                    confirm = str(input("Confirm you want ALL saves deleted. (y/n) \n>"))
-                    if confirm == 1:
-                        folders = os.listdir(f"{filePath}/saves")
-                        for folder in folders:
-                            os.remove(folder)
-                    else:
-                        mainMenu(PlayerClass)
-                        return
-                if navigate == "2":
-                    openItemDesigner(filePath)
-                else:
-                    mainMenu(PlayerClass)
-                    return
-            case "5":
-                confirm = str(input("Are you sure you want to exit? (y/n)")).lower()
+    > """, int, 1, 5, Clear=True)
+    clear("d")
+
+    match navigate:
+        case 1:
+            player = PlayerClass(sparePoints=100)
+            player.newGame(savePath)
+        case 2:
+            player = PlayerClass()
+            if player.loadGame(savePath) == "CONTINUE":
+                mainMenu()
+                return
+        case 3:
+            print("To Be Added")
+            return mainMenu()
+        case 4:
+            navigate = sanInput("""
+\t\t---------Settings---------
+\t\t1. Wipe Saves Folder
+\t\t2. Open Item Designer
+\t\t3. Exit
+\t\t> """, int, 1, 3, Clear=True)          
+            if navigate == 1:
+                confirm = sanInput("\t\tConfirm you want ALL saves deleted. (y/n) \n\t\t> ", str, values=["y", "n"], Clear=True)
                 if confirm == "y":
-                    raise SystemExit
-                elif confirm == "n":
-                    print("Returning to main menu...")
+                    folders = os.listdir(f"{filePath}\\saves")
+                    for folder in folders:
+                        for file in os.listdir(f"{filePath}\\saves\\{folder}"):
+                            os.remove(f"{filePath}\\saves\\{folder}\\{file}")
+                        os.rmdir(f"{filePath}\\saves\\{folder}")
                 else:
-                    print("Invalid input, returning to start of creation.")
-                mainMenu(PlayerClass)
-            case other:
-                print("Incorrect value input. Please enter a number from 1-5.")     
-                mainMenu(PlayerClass)
-        correct = 1
-mainMenu(PlayerClass)
+                    return mainMenu()
+            if navigate == 2:
+                openItemDesigner(filePath)
+            else:
+                return mainMenu()
+        case 5:
+            confirm = sanInput("\t\tAre you sure you want to exit? (y/n)\n> ", str, values=["y", "n"], Clear=True)
+            if confirm == "y":
+                raise SystemExit
+            elif confirm == "n":
+                print("Returning to main menu...")
+mainMenu()
