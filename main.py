@@ -18,18 +18,18 @@ def mainMenu():
     clear("d")
     correct = 0
     navigate = sanInput(f"""
--------Main Menu-------
-      1.New Game
-      2.Load Game
-      3.Help
-      4.Settings
-      5.Quit
-    > """, int, 1, 5, Clear=True)
+\t\t---Main Menu-------
+\t\t  1.New Game
+\t\t  2.Load Game
+\t\t  3.Help
+\t\t  4.Settings
+\t\t  5.Quit
+\t\t> """, int, 1, 5, Clear=True)
     clear("d")
 
     match navigate:
         case 1:
-            player = PlayerClass(sparePoints=100)
+            player = PlayerClass()
             player.newGame(savePath)
         case 2:
             player = PlayerClass()

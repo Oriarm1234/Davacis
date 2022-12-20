@@ -249,4 +249,4 @@ class PlayerClass: # has all of the stats for the player
 
                 return
     def nameSelf(self):
-        self.name = input("What is your name?\n> ")
+        self.name = input("\t\tWhat is your name?\n\t\t> ")
