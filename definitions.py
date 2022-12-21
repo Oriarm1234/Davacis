@@ -5,7 +5,7 @@ filePath = os.path.dirname(os.path.realpath(__file__))
 logging = initLogger(filePath)
 def clear(mode="i"):
     if mode == "d":
-        sleep(1.25)
+        sleep(1)
     os.system('cls')
 racesDict = {
     "human":{

@@ -15,7 +15,6 @@ from itemMaker import openItemDesigner
 # Main Menu
 clear("i")
 def mainMenu():
-    clear("d")
     correct = 0
     navigate = sanInput(f"""
 \t\t---Main Menu-------
@@ -25,7 +24,6 @@ def mainMenu():
 \t\t  4.Settings
 \t\t  5.Quit
 \t\t> """, int, 1, 5, Clear=True)
-    clear("d")
 
     match navigate:
         case 1:
@@ -37,6 +35,7 @@ def mainMenu():
                 mainMenu()
                 return
         case 3:
+            clear("d")
             print("To Be Added")
             return mainMenu()
         case 4:

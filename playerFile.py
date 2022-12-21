@@ -199,18 +199,15 @@ class PlayerClass: # has all of the stats for the player
         slotPath = self.makeSaveSlot(savePath)
         self.saveGame(slotPath)
     def saveGame(self,slotPath):
-        slotContent = os.listdir(f"{slotPath}")
         quote = '\''
-        if "player.txt" in slotContent:
-            print("Saving...")
-            for attribute, value in self.__dict__.items():    
-                with open(f"{slotPath}/player.txt","a") as f:
-                    f.write(f"{attribute}={(value if (not type(value) == str) else (quote + value + quote))}\n")
-        else:
-            with open(f"{slotPath}/player.txt","x") as f:
-                self.saveGame(slotPath)
+        print("Saving...")
+        for attribute, value in self.__dict__.items():
+            with open(f"{slotPath}/player.txt","w") as f:
+                f.write(f"{attribute}={(value if (not type(value) == str) else (quote + value + quote))}\n")
         clear("d")    
     def loadGame(self,savePath):
+        while True:
+            clear("d")
             slots = os.listdir(savePath)
             message = "\t\tWhat slot would you like to load?\n"
             for i in range(len(slots)):
@@ -224,14 +221,11 @@ class PlayerClass: # has all of the stats for the player
             slotPath = f"{savePath}/{saveSlot}"
             if len(os.listdir(f"{slotPath}")) == 0:
                 logging.warning(f"\t\t{saveSlot} appears empty, this indicates a broken save.")
-                delete = sanInput("\t\tWould you like to delete the file? (y/n)\n> ", str, values=["y", "n"],Clear=True)
+                delete = sanInput("\t\tWould you like to delete the file? (y/n)\n\t\t> ", str, values=["y", "n"],Clear=True)
                 if delete == "y":
                     os.rmdir(slotPath)
                     logging.debug(f"{saveSlot} deleted")
-                else:
-                    clear("d")
-                    self.loadGame(savePath)
-                    return
+                continue
 
             with open(f"{slotPath}/player.txt") as f:    
                 lines = f.read().split("\n")
@@ -244,8 +238,7 @@ class PlayerClass: # has all of the stats for the player
                 navigate = sanInput(f"{self}\n\t\tIs this the correct file?(y/n)\n\t\t> ",str, values=["y", "n"], Clear=True)
                 if navigate == "n":
                     print("Returning to slot selection...")
-                    clear("d")
-                    self.loadGame(savePath)
+                    continue
 
                 return
     def nameSelf(self):

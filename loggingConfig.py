@@ -5,7 +5,7 @@ def initLogger(filePath):
     timeNow = str(datetime.now()).replace(" ","_").replace(":","-")
     timeNow = timeNow[0:16]
     logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.DEBUG,format='%(ascTime)s - %(levelname)s:%(message)s')
+    logging.basicConfig(level=logging.DEBUG,format='%(asctime)s - %(levelname)s:%(message)s')
     fileLogger = logging.FileHandler(f'{filePath}\\logs\\{timeNow}.log')
     fileLogger.setLevel(logging.DEBUG)
     consoleLogger = logging.StreamHandler()
