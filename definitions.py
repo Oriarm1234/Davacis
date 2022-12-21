@@ -69,9 +69,10 @@ def sanInput(message,desiredType=None,valMin=None,valMax=None,values=[],Clear=Fa
                             raise SyntaxError(f"\t\t{desiredType} is not a handled type")
                     print(f"\t\tInvalid data, please enter {hrData}.")
                     continue
+# noinspection PyUnreachableCode
         if valMin != None:
             if isinstance(userInput,int) or isinstance(userInput,float):
-                if valMin > userInput: 
+                if valMin > userInput:
                     print(f"\t\tPlease enter a value greater than {valMin-1}.")
                     continue
             elif isinstance(userInput,str):

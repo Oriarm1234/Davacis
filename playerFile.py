@@ -154,6 +154,7 @@ class PlayerClass: # has all of the stats for the player
             self.assignRace(davacis,racesDict)
             return
     def makeSaveSlot(self,savePath):
+
         saveSlot = input("\t\tWhat would you like to name the save slot?\n\t\t> ").strip().replace(' ', '_')
         if "\\" in saveSlot or "/" in saveSlot:
             print("\t\tSave slot cannot contain slashes")
@@ -178,7 +179,7 @@ class PlayerClass: # has all of the stats for the player
                 elif navigate == "n":
                     print("Returning to start of slot naming.")
                     return self.makeSaveSlot(savePath)
-                    
+
 
             logging.warning("Slot name taken.")
             override = sanInput("Would you like to override the slot? (y/n)\n> ", str, values=["y","n"], Clear=True)
@@ -189,7 +190,7 @@ class PlayerClass: # has all of the stats for the player
                 self.makeSaveSlot(savePath)
                 print("Returning to main menu")
                 return
-            clear("d")    
+            clear("d")
         return slotPath
     def newGame(self,savePath):
         clear("i")
