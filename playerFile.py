@@ -57,13 +57,13 @@ class PlayerClass: # has all of the stats for the player
         stats = ["dexterity","agility","vitality","awareness","charisma","intelligence","strength"] # list of stats
         try:
             navigate = int(input(f"""
-            1.Dexterity - {self.dexterity}
-            2.Agility - {self.agility}
-            3.Vitality - {self.vitality}
-            4.Awareness - {self.awareness}
-            5.Charisma - {self.charisma}
-            6.Intelligence - {self.intelligence}
-            7.Strength - {self.strength}
+            1.Dexterity - {self.stats["strength"]}
+            2.Agility - {self.stats["agility"]}
+            3.Vitality - {self.stats["vitality"]}
+            4.Awareness - {self.stats["awareness"]}
+            5.Charisma - {self.stats["charisma"]}
+            6.Intelligence - {self.stats["intelligence"]}
+            7.Strength - {self.stats["strength"]}
             8.Exit
             You have {self.sparePoints} to spend.
             """)) - 1
@@ -254,15 +254,11 @@ Blunt""")
     def loadGame(self,savePath):
             print("What slot would you like to load")
             slots = os.listdir(savePath)
-            for i in range(len(slots)):
-                print(f"{i + 1}.{slots[i]}")
+            for i in range(len(slots)): print(f"{i + 1}.{slots[i]}")
             print(f"{len(slots) + 1}.Exit")
-            try:
-                while True:
-                    slot = int(input(">")) - 1
-                    saveSlot = slots[slot]
-            except(IndexError):
-                return
+                saveSlot = slots[sanInput(">",int,1,len(slots) + 1)] # type: ignore
+                if saveSlot == len(slots) + 1:
+                    return None
             slotPath = f"{savePath}/{saveSlot}"
             if len(os.listdir(f"{slotPath}")) == 0:
                 logging.warning(f"{saveSlot} appears empty, this indicates a broken save.")
